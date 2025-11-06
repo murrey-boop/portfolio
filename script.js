@@ -106,6 +106,65 @@ document.querySelectorAll('.project-card').forEach((card, index) => {
 // Contact form handling
 const contactForm = document.querySelector('.contact-form');
 
+// Create notification element
+function showNotification(message, type = 'success') {
+    // Remove any existing notification
+    const existingNotification = document.querySelector('.form-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create new notification
+    const notification = document.createElement('div');
+    notification.className = `form-notification ${type}`;
+    notification.textContent = message;
+    
+    // Add CSS for notification
+    const style = document.createElement('style');
+    style.textContent = `
+        .form-notification {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+        }
+        .form-notification.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #059669;
+        }
+        .form-notification.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #dc2626;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    if (!document.querySelector('style[data-notification-style]')) {
+        style.setAttribute('data-notification-style', 'true');
+        document.head.appendChild(style);
+    }
+    
+    // Insert notification at the top of the form
+    contactForm.insertBefore(notification, contactForm.firstChild);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+}
+
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -116,10 +175,10 @@ contactForm.addEventListener('submit', (e) => {
     // Simple validation
     if (name && email && message) {
         // In a real application, you would send this data to a server
-        alert('Thank you for your message! I will get back to you soon.');
+        showNotification('Thank you for your message! I will get back to you soon.', 'success');
         contactForm.reset();
     } else {
-        alert('Please fill in all fields.');
+        showNotification('Please fill in all fields.', 'error');
     }
 });
 
