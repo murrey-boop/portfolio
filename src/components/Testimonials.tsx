@@ -16,23 +16,23 @@ const testimonials = [
   {
     id: 1,
     quote: "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
-    author: "Sara Lee",
+    author: "Monique",
     position: "CEO of Acme Co",
     avatar: "/api/placeholder/40/40",
     initials: "SL"
   },
   {
     id: 2,
-    quote: "I've never met a web developer who truly cared about their clients' success like Rick does.",
-    author: "Chris Brown",
+    quote: "I've never met a web developer who truly cared about their clients' success like Murrey does.",
+    author: "Edwin",
     position: "COO of DEF Corp",
     avatar: "/api/placeholder/40/40",
     initials: "CB"
   },
   {
     id: 3,
-    quote: "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
-    author: "Lisa Wang",
+    quote: "After Murrey optimized our website, our traffic increased by 50%. We can't thank them enough!",
+    author: "Max",
     position: "CTO of 456 Enterprises",
     avatar: "/api/placeholder/40/40",
     initials: "LW"
