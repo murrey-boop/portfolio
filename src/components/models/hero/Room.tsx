@@ -2,7 +2,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
-import { useRef } from "react";
+import { JSX, useRef } from "react";
 
 export function Room(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/optimized-room.glb") as any;
