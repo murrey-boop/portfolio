@@ -1,12 +1,10 @@
 import { useGLTF, useTexture } from "@react-three/drei";
-import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
-import { JSX, useRef } from "react";
+import { JSX } from "react";
 
 export function Room(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/optimized-room.glb") as any;
-  const screensRef = useRef<THREE.Mesh>(null);
   const matcapTexture = useTexture("/images/textures/mat1.png");
 
   const curtainMaterial = new THREE.MeshPhongMaterial({ color: "#d90429" });
@@ -17,15 +15,23 @@ export function Room(props: JSX.IntrinsicElements["group"]) {
   const pillowMaterial = new THREE.MeshPhongMaterial({ color: "#8338ec" });
   const chairMaterial = new THREE.MeshPhongMaterial({ color: "#000" });
 
+  // Make screens emissive so Bloom picks them up
+  const screenMaterial = new THREE.MeshStandardMaterial({
+    ...materials.lambert1,
+    color: "#ffffff",
+    emissive: "#4cc9f0",
+    emissiveIntensity: 2,
+    toneMapped: false,
+  });
+
   return (
     <group {...props} dispose={null}>
       <EffectComposer>
-        <SelectiveBloom
-          selection={screensRef}
+        <Bloom
           intensity={1.5}
           luminanceThreshold={0.2}
           luminanceSmoothing={0.9}
-          blendFunction={BlendFunction.ADD}
+          mipmapBlur
         />
       </EffectComposer>
       <mesh geometry={nodes._________6_blinn1_0.geometry} material={curtainMaterial} />
@@ -33,7 +39,7 @@ export function Room(props: JSX.IntrinsicElements["group"]) {
       <mesh geometry={nodes.cabin_blinn1_0.geometry} material={tableMaterial} />
       <mesh geometry={nodes.chair_body_blinn1_0.geometry} material={chairMaterial} />
       <mesh geometry={nodes.comp_blinn1_0.geometry} material={compMaterial} />
-      <mesh ref={screensRef} geometry={nodes.emis_lambert1_0.geometry} material={materials.lambert1} />
+      <mesh geometry={nodes.emis_lambert1_0.geometry} material={screenMaterial} />
       <mesh geometry={nodes.handls_blinn1_0.geometry} material={materials.blinn1} />
       <mesh geometry={nodes.keyboard_blinn1_0.geometry} material={materials.blinn1} />
       <mesh geometry={nodes.kovrik_blinn1_0.geometry} material={materials.blinn1} />
